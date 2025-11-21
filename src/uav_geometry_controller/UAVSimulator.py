@@ -1,9 +1,11 @@
-from UAVControlParameter import *
-from UAVModel import *
-from UAVSimulator import *
-from UAVTrajectory import *
+from pathlib import Path
+from typing import Optional, Union
+from .UAVControlParameter import *
+from .UAVModel import *
+from .UAVSimulator import *
+from .UAVTrajectory import *
 
-from math_utility import *
+from .math_utility import *
 
 from matplotlib.figure import Figure
 
@@ -135,45 +137,45 @@ class UAVSimulator:
         self.f_record = np.array(self.f_record)
         self.t_record = np.array(self.t_record)
 
-    def draw_rot_error(self, fig: Figure, save_path = None):
+    def draw_rot_error(self, fig: Figure, save_path: Optional[Union[str, Path]] = None):
         axe = fig.add_subplot(1, 1, 1)
         axe.plot(self.t_record, self.r_error_record)
-        # fig.suptitle(R"姿态误差函数 $\psi$")
+        fig.suptitle(R"姿态误差函数 $\psi$")
         fig.set_layout_engine("constrained")
 
-        if save_path != None:
+        if save_path is not None:
             fig.savefig(save_path)
 
-    def draw_pos(self, fig: Figure, save_path = None):
+    def draw_pos(self, fig: Figure, save_path: Optional[Union[str, Path]] = None):
         for i in range(3):
             axe = fig.add_subplot(3, 1, i + 1)
             axe.plot(self.t_record, self.pos_record[:, i]) # type: ignore
             axe.plot(self.t_record, self.pos_record[:, i + 3], linestyle = '--') # type: ignore
             axe.legend(["实际位置 $x$", "跟随轨迹 $x_d$"])
-        # fig.suptitle(R"无人机坐标 (m)")
+        fig.suptitle(R"无人机坐标 (m)")
         fig.set_layout_engine("constrained")
 
-        if save_path != None:
+        if save_path is not None:
             fig.savefig(save_path)
 
-    def draw_omega(self, fig: Figure, filter: int = 0, save_path = None):
+    def draw_omega(self, fig: Figure, filter: int = 0, save_path: Optional[Union[str, Path]] = None):
         for i in range(3):
             axe = fig.add_subplot(3, 1, i + 1)
             axe.plot(self.t_record[filter:], self.omega_record[filter:, i]) # type: ignore
             axe.plot(self.t_record[filter:], self.omega_record[filter:, i + 3], linestyle = '--') # type: ignore
             axe.legend([R"实际角速度 $\Omega$", R"跟随角速度 $\Omega_d$"])
-        # fig.suptitle(R"无人机角速度 (rad/s)")
+        fig.suptitle(R"无人机角速度 (rad/s)")
         fig.set_layout_engine("constrained")
 
-        if save_path != None:
+        if save_path is not None:
             fig.savefig(save_path)
 
-    def draw_f(self, fig: Figure, filter: int = 0, save_path = None):
+    def draw_f(self, fig: Figure, filter: int = 0, save_path: Optional[Union[str, Path]] = None):
         for i in range(4):
             axe = fig.add_subplot(4, 1, i + 1)
             axe.plot(self.t_record[filter:], self.f_record[filter:, i]) # type: ignore
-        # fig.suptitle(R"无人机螺旋桨推力 (N)")
+        fig.suptitle(R"无人机螺旋桨推力 (N)")
         fig.set_layout_engine("constrained")
 
-        if save_path != None:
+        if save_path is not None:
             fig.savefig(save_path)

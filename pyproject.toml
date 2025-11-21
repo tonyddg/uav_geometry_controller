@@ -1,0 +1,21 @@
+[project]
+name = "uav-geometry-controller"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "tonyddg", email = "799052200@qq.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.10.7",
+    "numpy>=2.2.6",
+    "tyro>=0.9.35",
+]
+
+[project.scripts]
+uav-geometry-controller = "uav_geometry_controller:main"
+
+[build-system]
+requires = ["uv_build>=0.9.6,<0.10.0"]
+build-backend = "uv_build"
